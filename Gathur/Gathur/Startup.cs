@@ -1,18 +1,15 @@
+using Gathur.Interfaces;
+using Gathur.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-namespace WebApplication1
+namespace Gathur
 {
 	public class Startup
 	{
@@ -26,11 +23,50 @@ namespace WebApplication1
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddTransient<IPostRepository, PostRepository>();
+			services.AddTransient<IUserRepository, UserRepository>();
 
+			var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
+			var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";
+			services
+				.AddAuthentication(JwtBearerDefaults.AuthenticationScheme) //TODO :
+				.AddJwtBearer(options =>
+				{
+					options.Authority = googleTokenUrl;
+					options.TokenValidationParameters = new TokenValidationParameters
+					{
+						ValidateIssuer = true,
+						ValidIssuer = googleTokenUrl,
+						ValidateAudience = true,
+						ValidAudience = firebaseProjectId,
+						ValidateLifetime = true
+					};
+				});
 			services.AddControllers();
 			services.AddSwaggerGen(c =>
 			{
-				c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApplication1", Version = "v1" });
+				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Gathur", Version = "v1" });
+				//TODO : take this for swag 49-73
+				var securitySchema = new OpenApiSecurityScheme
+				{
+					Name = "Authorization",
+					BearerFormat = "JWT",
+					Description = "JWT Authorization header using the Bearer scheme.",
+					Type = SecuritySchemeType.ApiKey,
+					In = ParameterLocation.Header,
+					
+					Reference = new OpenApiReference
+					{
+						Id = "Bearer",
+						Type = ReferenceType.SecurityScheme,
+					}
+				};
+
+				c.AddSecurityDefinition("Bearer", securitySchema);
+				c.AddSecurityRequirement(new OpenApiSecurityRequirement
+				{
+					{ securitySchema, new[] { "Bearer"} }
+				});
 			});
 		}
 
@@ -41,12 +77,20 @@ namespace WebApplication1
 			{
 				app.UseDeveloperExceptionPage();
 				app.UseSwagger();
-				app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApplication1 v1"));
+				app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Gathur v1"));
+
+				app.UseCors(options =>
+				{
+					options.AllowAnyOrigin();
+					options.AllowAnyMethod();
+					options.AllowAnyHeader();
+				});
 			}
 
 			app.UseHttpsRedirection();
 
 			app.UseRouting();
+			app.UseAuthentication();
 
 			app.UseAuthorization();
 
