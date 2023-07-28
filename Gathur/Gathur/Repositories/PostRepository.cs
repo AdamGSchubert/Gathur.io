@@ -24,7 +24,7 @@ namespace Gathur.Repositories
 				using (var cmd = conn.CreateCommand())
 				{
 					cmd.CommandText = @"select Post.Id as PostId, UserName, GroupId, Title, Content, Post.PostTypeId, PostType.Name as PostTypeName, SubmitTime, MeetingZip, Address,
-										[User].Id as UserId  
+										EditTime,[User].Id as UserId  
 										from Post
 										join [User] on Post.AuthorId = [User].Id
 										join PostType on Post.PostTypeId = PostType.Id
@@ -49,6 +49,7 @@ namespace Gathur.Repositories
 								UserName = DbUtils.GetString(reader, "UserName")
 							},
 							SubmitTime = DbUtils.GetDateTime(reader, "SubmitTime"),
+							EditTime = DbUtils.GetNullableDateTime(reader, "EditTime"),
 							Address = DbUtils.GetString(reader, "Address"),
 						    Zipcode = DbUtils.GetNullableInt(reader,"MeetingZip"),
 							PostType = new PostType()
@@ -72,7 +73,7 @@ namespace Gathur.Repositories
 				using (var cmd =conn.CreateCommand()) 
 				{ 
 					cmd.CommandText = @"  select top 5 Post.Id as PostId, UserName, GroupId, Title, Content, PostType.Name, SubmitTime, MeetingZip, Address,
-										[User].Id as UserId, [Group].[Name] as GroupName 
+										EditTime, [User].Id as UserId, [Group].[Name] as GroupName 
 										from Post
 										join [User] on Post.AuthorId = [User].Id
 										join PostType on Post.PostTypeId = PostType.Id
@@ -95,6 +96,7 @@ namespace Gathur.Repositories
 								UserName = DbUtils.GetString(reader, "UserName")
 							},
 							SubmitTime = DbUtils.GetDateTime(reader, "SubmitTime"),
+							EditTime = DbUtils.GetNullableDateTime(reader, "EditTime"),
 							Group = new Group()
 							{
 								Id = DbUtils.GetInt(reader,"GroupId"),
@@ -117,7 +119,7 @@ namespace Gathur.Repositories
 			using ( var cmd =conn.CreateCommand())
 				{
 					cmd.CommandText = @"select Post.Id as PostId, UserName, GroupId, Title, Content, PostType.Name as PostTypeName, SubmitTime, MeetingZip, Address,
-										[User].Id as UserId, Group.Name as GroupName, PostType.Id as PostTypeId
+										EditTime,[User].Id as UserId, Group.Name as GroupName, PostType.Id as PostTypeId
 										from Post
 										join [User] on Post.AuthorId = [User].Id
 										join PostType on Post.PostTypeId = PostType.Id
@@ -146,6 +148,7 @@ namespace Gathur.Repositories
 							UserName = DbUtils.GetString(reader, "UserName")
 						};
 						post.SubmitTime = DbUtils.GetDateTime(reader, "SubmitTime");
+						post.EditTime = DbUtils.GetNullableDateTime(reader, "EditTime");
 						post.Address = DbUtils.GetString(reader, "address");
 						post.Zipcode = DbUtils.GetInt(reader, "MeetingZip");
 						post.PostType = new PostType()
@@ -161,7 +164,7 @@ namespace Gathur.Repositories
 			
 			}
 		}
-
+		//create
 		public void NewPost(Post post)
 		{
 			using (var conn = Connection)
@@ -193,7 +196,7 @@ namespace Gathur.Repositories
 
 			}	
 		}
-
+		//delete
 		public void DeletePost(int postId) 
 		{
 			using (var conn = Connection) 
@@ -211,7 +214,7 @@ namespace Gathur.Repositories
 				}
 			}
 		}
-
+		//update
 		public void UpdatePost(int id, Post post)
 		{
 			using (var conn = Connection) 
@@ -226,7 +229,8 @@ namespace Gathur.Repositories
 									Content = @content,
 									PostTypeId = @posttype,
 									MeetingZip = @zipcode,
-									Address = @address
+									Address = @address,
+									EditTime= @editTime
 									where Post.Id=@id";
 					DbUtils.AddParameter(cmd, "@id", post.Id);
 					DbUtils.AddParameter(cmd, "@authorId", post.Author.Id);
@@ -235,6 +239,7 @@ namespace Gathur.Repositories
 					DbUtils.AddParameter(cmd, "@content", post.Content);
 					DbUtils.AddParameter(cmd, "@zipcode", post.Zipcode);
 					DbUtils.AddParameter(cmd, "@address", post.Address);
+					DbUtils.AddParameter(cmd, "@editTime", DateTime.Now);
 
 					cmd.ExecuteNonQuery ();
 				}

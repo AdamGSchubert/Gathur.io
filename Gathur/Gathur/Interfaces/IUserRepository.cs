@@ -9,5 +9,7 @@ namespace Gathur.Interfaces
         void register(User newUser);
         User GetByFirebaseUserId(string firebaseUserId);
 
+
+
 	}
 }

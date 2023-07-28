@@ -12,8 +12,12 @@ namespace Gathur.Interfaces
 
         void MakeAGroup(Group group);
 
-        void UpdateGroup(int id);
+        void UpdateGroup(Group group);
 
-       
-    }
+        void AddUserToGroupAdmin(int userId, int groupId);
+
+        List<GroupAdmin> GetGroupAdmins(int groupId);
+
+
+	}
 }

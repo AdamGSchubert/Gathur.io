@@ -16,6 +16,7 @@ namespace Gathur.Models
 		public int TagId { get; set; }
 		
 		public DateTime SubmitTime { get; set; }
+		public DateTime? EditTime { get; set; }
 		public string Address { get; set; }
 		public int? Zipcode { get; set; }
 

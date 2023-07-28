@@ -9,9 +9,11 @@ namespace Gathur.Models
 
 		public int PostId { get; set; }
 
+		public int AuthorId { get; set; }
 		public User Author { get; set; }
 		public string Content { get; set; }
 		public DateTime SubmitTime { get; set; }
+		public DateTime? EditTime { get; set; }
 
 	}
 }

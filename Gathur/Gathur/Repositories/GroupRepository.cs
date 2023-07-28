@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Gathur.Repositories
 {
-    public class GroupRepository : BaseRepository, IGroupRepository
+	public class GroupRepository : BaseRepository, IGroupRepository
 	{
 		public GroupRepository(IConfiguration configuration) : base(configuration)
 		{
@@ -83,7 +83,7 @@ namespace Gathur.Repositories
 				conn.Open();
 				using (var cmd = conn.CreateCommand())
 				{
-					cmd.CommandText = @"select [Group].Id as GroupId, [Group].[Name] as GroupName from [Group]
+					cmd.CommandText = @"select [Group].Id as GroupId,[Name] as GroupName from [Group]
 										join JoinedGroup on [Group].Id = JoinedGroup.GroupId
 										where JoinedGroup.UserId = @id";
 
@@ -91,20 +91,20 @@ namespace Gathur.Repositories
 					var reader = cmd.ExecuteReader();
 
 					var myGroups = new List<Group>();
-					while (reader.Read()) 
+					while (reader.Read())
 					{
 						myGroups.Add(new Group()
 						{
 							Id = DbUtils.GetInt(reader, "GroupId"),
-							Name = DbUtils.GetString(reader, "Name"),
+							Name = DbUtils.GetString(reader, "GroupName"),
 						});
 					}
 					reader.Close();
 					return myGroups;
-				}	
+				}
 			}
 		}
-
+		//create
 		public void MakeAGroup(Group group)
 		{
 			using (var conn = Connection)
@@ -120,15 +120,82 @@ namespace Gathur.Repositories
 					DbUtils.AddParameter(cmd, "@name", group.Name);
 					DbUtils.AddParameter(cmd, "@desc", group.Description);
 
+					group.Id = (int)cmd.ExecuteScalar();
+				}
+			}
+		}
+		//update
+		public void UpdateGroup(Group Group)
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				using (var cmd = conn.CreateCommand())
+				{
+					cmd.CommandText = @"Update [Group]
+										set [Name] = @name,
+										Description = @desc
+										where Id = @id";
+					DbUtils.AddParameter(cmd, "@id", Group.Id);
+					DbUtils.AddParameter(cmd, "@name", Group.Name);
+					DbUtils.AddParameter(cmd, "@desc", Group.Description);
 
+					cmd.ExecuteNonQuery();
 				}
 			}
 		}
 
-		public void UpdateGroup(int id)
+		//create Group Admin.
+		public void AddUserToGroupAdmin(int groupId,int userId )
 		{
-			throw new System.NotImplementedException();
+			using (var conn = Connection) 
+			{
+			conn.Open();
+			using (var cmd =conn.CreateCommand())
+				{
+					cmd.CommandText = @" insert into GroupAdmin
+										( GroupId, UserId)
+										output Inserted.Id
+										Values (@groupId, @userId)";
+
+					DbUtils.AddParameter(cmd, "@groupId", groupId);
+					DbUtils.AddParameter(cmd, "@userId", userId);
+
+					cmd.ExecuteNonQuery();
+				}
+			}
 		}
+
+		public List<GroupAdmin> GetGroupAdmins(int groupId)
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				using (var cmd=conn.CreateCommand())
+				{
+					cmd.CommandText = @"select Id, GroupId, UserId
+										from GroupAdmin
+										where GroupId = @groupId";
+
+					DbUtils.AddParameter(cmd, "@groupId", groupId);
+
+					var reader = cmd.ExecuteReader();
+					var GroupAdmins = new List<GroupAdmin>();
+					while(reader.Read())
+					{
+						GroupAdmins.Add(new GroupAdmin()
+						{
+							Id = DbUtils.GetInt(reader, "Id"),
+							GroupId = DbUtils.GetInt(reader,"GroupId"),
+							UserId=DbUtils.GetInt(reader, "UserId")
+
+						});
+					}
+					return GroupAdmins;
+				}
+			}
+		}
+
 	}
 
 

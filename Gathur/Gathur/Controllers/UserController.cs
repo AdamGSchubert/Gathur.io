@@ -27,7 +27,7 @@ namespace Gathur.Controllers
 			var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 			return _userRepository.GetByFirebaseUserId(firebaseUserId);
 		}
-		
+
 		[HttpGet("DoesUserExist/{firebaseUserId}")]
 		public IActionResult DoesUserExist(string firebaseUserId)
 		{
@@ -49,31 +49,32 @@ namespace Gathur.Controllers
 		[HttpPost]
 		public IActionResult Register(User newUser)
 		{
-			
+
 			_userRepository.register(newUser);
 			return CreatedAtAction(
 				nameof(login)
-				,newUser);
+				, newUser);
 		}
 
 
 
-	} }
+		//} }
 
-	//login takes a username returns user if match 
-	/* take user.password 
-	 *  now login has password (in sha256) 
-	 *  if password passed in is same as user.password
-	 *  return user
-	 * 
-	 * 
+		//login takes a username returns user if match 
+		/* take user.password 
+		 *  now login has password (in sha256) 
+		 *  if password passed in is same as user.password
+		 *  return user
+		 * 
+		 * 
 
-	//does user exist
-	// if not send to register
-	//get user if username exists
-	//check username.password is correct?
-	// if username and username.password is correct return ok()
+		//does user exist
+		// if not send to register
+		//get user if username exists
+		//check username.password is correct?
+		// if username and username.password is correct return ok()
 
-
+			*/
+	}
 }
-	*/
+	

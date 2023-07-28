@@ -16,9 +16,10 @@ namespace Gathur.Controllers
 		private readonly IPostRepository _postRepository;
 		private readonly IUserRepository _userRepository;
 
-		public PostController(IPostRepository postRepository)
+		public PostController(IPostRepository postRepository, IUserRepository userRepository)
 		{
 			_postRepository = postRepository;
+			_userRepository = userRepository;
 		}
 
 		[HttpGet("{GroupId}")]
@@ -40,18 +41,27 @@ namespace Gathur.Controllers
 			return Created($"/api/post/{post.Id}", post);
 		}
 
-		//[HttpDelete("PostId")]
-		//public IActionResult DeletePost(int PostId) 
-		//{
-		//	var post =_postRepository.GetPostById(PostId);
-		//	var user = _userRepository.GetUser(username);
-		//	if (post.Author.Id == user.Id ) 
-		//	{
-		//		_postRepository.DeletePost(PostId);
-		//	}
+		[HttpDelete("PostId")]
+		public IActionResult DeletePost(int PostId)
+		{
+
+			string UUID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+			User signedUser = _userRepository.GetByFirebaseUserId(UUID);
+			var post = _postRepository.GetPostById(PostId);
+			
+			if (post.Author.Id == signedUser.Id)
+			{
+				_postRepository.DeletePost(PostId);
+				return Ok(); 
+			}
+			else
+			{
+				return BadRequest();
+			}
 
 
-		//}
+		}
 		private User GetCurrentUserProfile()
 		{
 			var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
