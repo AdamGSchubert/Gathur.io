@@ -6,6 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Gathur.Services;
+using RestSharp;
+
 
 namespace Gathur
 {
@@ -14,6 +17,8 @@ namespace Gathur
 		public static void Main(string[] args)
 		{
 			CreateHostBuilder(args).Build().Run();
+
+
 		}
 
 		public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -22,5 +27,7 @@ namespace Gathur
 				{
 					webBuilder.UseStartup<Startup>();
 				});
+
+	
 	}
 }
