@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Gathur.Controllers;
 using Gathur.Utils;
+using Gathur.Services;
 
 namespace Gathur
 {
@@ -29,6 +30,7 @@ namespace Gathur
 			services.AddTransient<IUserRepository, UserRepository>();
 			services.AddTransient<IGroupRepository, GroupRepository>();
 			services.AddTransient<ICommentRepository, CommentRepository>();
+			services.AddTransient<IZipcodeService, ZipcodeService>();
 			
 			var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
 			var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";
