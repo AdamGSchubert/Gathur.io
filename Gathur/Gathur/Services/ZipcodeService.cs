@@ -17,10 +17,10 @@ namespace Gathur.Services
 {
 	public class ZipcodeService : IZipcodeService
 	{
-		private static HttpClient zipclient = new()
-		{
-			BaseAddress = new Uri("https://app.zipcodebase.com/api/{{version}}/radius?")
-		};
+		//private static HttpClient zipclient = new()
+		//{
+		//	BaseAddress = new Uri("https://app.zipcodebase.com/api/{{version}}/radius?")
+		//};
 		// public List<ZipcodeCheck> Checks()
 		//{
 
@@ -29,7 +29,7 @@ namespace Gathur.Services
 		{
 			List<ZipcodeCheck> zipList = new List<ZipcodeCheck>();
 
-			ZipCodeQueryResult resultObj = GetZipsFromThirdParty(zipcode, radius).Result;
+			ZipCodeQueryResult resultObj = GetZipsFromThirdParty(zipcode, radius).Result;// separates the task from the controller to separate async logic out of the initial call.
 
 			if (resultObj != null)
 			{
@@ -56,10 +56,10 @@ namespace Gathur.Services
 			ZipCodeQueryResult resultObj = null;
 			string url = $"https://app.zipcodebase.com/api/v1/radius?apikey={EnvironmentalVariables.apikey}&code={zipcode}&radius={radius}&country=US&unit=miles";
 			using (HttpClient client = new HttpClient())
-			{
-				var response = client.GetAsync(url).Result;
-				String result = await response.Content.ReadAsStringAsync();
-				resultObj = JsonConvert.DeserializeObject<ZipCodeQueryResult>(result);
+			{//consider httpclient the fetch api in javascript but in C#
+				var response = client.GetAsync(url).Result; //running the get api call to the specified url, then awaits the result of the http message returned assigns to response
+				String result = await response.Content.ReadAsStringAsync(); // takes that result and gets the content property then calls method to convert to data to string
+				resultObj = JsonConvert.DeserializeObject<ZipCodeQueryResult>(result);//convert the json to the map class that was created in the zipcodeQueryResult
 			}
 
 			return resultObj;

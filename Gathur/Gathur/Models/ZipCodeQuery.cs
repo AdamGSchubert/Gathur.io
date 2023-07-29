@@ -1,6 +1,6 @@
 ﻿namespace Gathur.Models
 {
-	public class ZipCodeQuery
+	public class ZipCodeQuery//model for the zipcode query json object
 	{
 		public string code { get; set; }
 

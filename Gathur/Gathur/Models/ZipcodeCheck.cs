@@ -4,7 +4,7 @@ using System;
 namespace Gathur.Models
 {
 	[Serializable]
-	public class ZipcodeCheck
+	public class ZipcodeCheck //model for the individual zipcode result object
 	{
 		[JsonProperty("Code")]
 		public int Code { get; set; }
