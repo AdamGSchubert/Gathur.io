@@ -15,13 +15,9 @@ export const HomeLanding =()=>{
     return (<>
         {
             randomPosts.map((post)=>(
-<<<<<<< Updated upstream
-            <Post post={post}/>
-=======
             <div padding={20}>   
             <Post post={post}/>
             </div> 
->>>>>>> Stashed changes
             ))
             
         }

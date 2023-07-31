@@ -56,7 +56,17 @@ namespace Gathur.Controllers
 				, newUser);
 		}
 
+		[HttpGet("Me")]
+		public IActionResult Me()
+		{
+			var userProfile = GetCurrentUserProfile();
+			if (userProfile == null)
+			{
+				return NotFound();
+			}
 
+			return Ok(userProfile);
+		}
 
 		//} }
 

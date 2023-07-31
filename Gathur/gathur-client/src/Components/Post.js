@@ -11,7 +11,7 @@ export const Post =({post})=>{
         outline
         >
             <CardBody>
-                <CardTitle><Link>{post.title}</Link></CardTitle>
+                <CardTitle>{post.title}</CardTitle>
                 <div>
                     <CardText>{post.content}</CardText>
                     </div>
