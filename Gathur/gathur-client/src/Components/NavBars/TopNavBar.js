@@ -62,7 +62,9 @@ return ( <nav className="navbar navbar-expand-lg bg-body-tertiary  " data-bs-the
             <li><a className="dropdown-item" href="#">Something else here</a></li> 
           </ul> */}
           </nav>
-        </> )
+        </> 
+        
+        )
         : 
         <><nav className="navbar navbar-expand-lg navbar-light bg-light">
         {/* //<!-- Avatar --> */}

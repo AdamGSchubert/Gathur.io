@@ -40,7 +40,7 @@ function App() {
   return (
     <Router>
       <TopNavBar isLoggedIn={isLoggedIn} user={userProfile}/>
-      
+      {isLoggedIn ? <GroupNav/> : ""}
       <ApplicationViews isLoggedIn={isLoggedIn} user={userProfile} appLogoutCallback={callback} />
       
     </Router>

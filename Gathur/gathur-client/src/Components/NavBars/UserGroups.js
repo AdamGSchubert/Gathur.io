@@ -1,35 +1,54 @@
-
+import {Card,CardHeader,ListGroup,ListGroupItem } from "reactstrap"
+import {Link} from "react-router-dom"
 
 export const GroupNav =()=>{
 
 
-    return (<><a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
-  Link with href
-</a>
-<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-  Button with data-bs-target
-</button>
+return (<>
+    <button className="btn btn-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" data-mdb-toggle="offcanvas" aria-controls="offcanvasExample">
+    My Groups
+    </button>
 
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
+<div  className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+  <div className="offcanvas-header">
+    {/* <h5 className="offcanvas-title" id="offcanvasExampleLabel">Groups</h5> */}
+    <button className="btn btn-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" data-mdb-toggle="offcanvas" aria-controls="offcanvasExample">
+    hide
+    </button>
+    </div>
     <div>
-      Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+    <Card
+  style={{
+    width: '18rem'
+  }}
+>
+  <CardHeader>
+    My Gathur Groups
+  </CardHeader>
+  <ListGroup flush>
+    {
+        //for each item in the my group list
+    //     <ListGroupItem>
+    //   <Link to="/">An item</Link>
+    // </ListGroupItem>
+        
+    }
+    <ListGroupItem>
+      <Link to="/">An item</Link>
+    </ListGroupItem>
+    <ListGroupItem>
+      A second item
+    </ListGroupItem>
+    <ListGroupItem>
+      And a third item
+    </ListGroupItem>
+  </ListGroup>
+</Card>
+</div>
     </div>
-    <div class="dropdown mt-3">
-      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-        Dropdown button
-      </button>
-      <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="#">Action</a></li>
-        <li><a class="dropdown-item" href="#">Another action</a></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
-      </ul>
-    </div>
-  </div>
-</div></>
+  
+  
+  
+</>
     )
 }
