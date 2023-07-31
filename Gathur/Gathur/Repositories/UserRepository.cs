@@ -72,7 +72,7 @@ namespace Gathur.Repositories
 				using (var cmd = conn.CreateCommand())
 				{
 					cmd.CommandText = @"select Id, UserName,FirebaseUserId, FirstName, LastName, 
-										Email, CreateDateTime, AvatarImageUrl, Radius,Zipcode
+										Email, CreateDateTime, AvatarImageUrl, Radius, Zipcode
 										from [User]
 										where UserName = @username";
 
@@ -91,8 +91,9 @@ namespace Gathur.Repositories
 						user.Email = DbUtils.GetString(reader, "Email");
 						user.CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime");
 						user.AvatarImgUrl = DbUtils.GetString(reader, "AvatarImageUrl");
-						user.Radius = DbUtils.GetInt(reader, "Radius");
 						user.Zipcode = DbUtils.GetInt(reader, "Zipcode");
+						user.Radius = DbUtils.GetInt(reader, "Radius");
+						
 					}
 					return user;
 				}

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button } from 'bootstrap';
 import { useNavigate, Link } from "react-router-dom";
 import { login } from "../Modules/AuthManager";
+import { Card,CardBody,CardTitle,CardText} from "reactstrap";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -12,12 +13,13 @@ export default function Login() {
   const loginSubmit = (e) => {
     e.preventDefault();
     login(email, password)
-      .then(() => navigate("/"))
+      .then(() => navigate("/home"))
       .catch(() => alert("Invalid email or password"));
   };
 
-  return (
-    <form onSubmit={loginSubmit}>
+  return (<div className="position-absolute top-50 start-50 translate-middle">
+    <Card>
+      <form onSubmit={loginSubmit}>
       <fieldset>
         <div>
           <label htmlFor="email">Email</label>
@@ -44,5 +46,7 @@ export default function Login() {
         </em>
       </fieldset>
     </form>
+    </Card>
+    </div>
   );
 }
