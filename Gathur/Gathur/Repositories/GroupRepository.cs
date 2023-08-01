@@ -225,7 +225,55 @@ namespace Gathur.Repositories
 			}
 		}
 
+
+		public List<JoinedGroup> GetJoinedGroups(int userId) 
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				using (var cmd = conn.CreateCommand())
+				{
+					cmd.CommandText = @"select Id, UserId, GroupId
+										from JoinedGroup
+										where UserId = @userid";
+					DbUtils.AddParameter(cmd, "@userid", userId);
+
+					List<JoinedGroup> wholeList = new List<JoinedGroup>();
+					var reader = cmd.ExecuteReader();
+					while (reader.Read())
+					{
+						wholeList.Add(new JoinedGroup()
+						{
+							Id = DbUtils.GetInt(reader, "Id"),
+							UserId = DbUtils.GetInt(reader, "UserId"),
+							GroupId = DbUtils.GetInt(reader, "GroupId")
+						});
+					}
+					return wholeList;
+				}
+			}
+		}
+		public void AddUserToGroup(JoinedGroup groupJoin)
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				using (var cmd = conn.CreateCommand())
+				{
+					cmd.CommandText = @"insert into JoinedGroup
+										(UserId, GroupId)
+										output Inserted.Id
+										Values (@userid, @groupid)";
+					DbUtils.AddParameter(cmd, "@userid", groupJoin.UserId);
+					DbUtils.AddParameter(cmd, "@groupid", groupJoin.GroupId);
+
+					groupJoin.Id = (int)cmd.ExecuteScalar();
+				}
+			}
+		}
 	}
+
+	
 
 
 }

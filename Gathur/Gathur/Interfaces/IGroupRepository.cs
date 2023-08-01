@@ -18,7 +18,11 @@ namespace Gathur.Interfaces
 
         void AddUserToGroupAdmin(int userId, int groupId);
 
-        List<GroupAdmin> GetGroupAdmins(int groupId);
+        void AddUserToGroup(JoinedGroup groupJoin);
+        List<JoinedGroup> GetJoinedGroups(int userId);
+
+
+		List<GroupAdmin> GetGroupAdmins(int groupId);
 
 
 	}

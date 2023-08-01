@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 
 namespace Gathur.Controllers
@@ -102,5 +103,27 @@ namespace Gathur.Controllers
 			}
 
 		}
+
+		[Authorize]
+		[HttpPost("JoinGroup")]
+		public IActionResult JoinGroup(JoinedGroup newJoin) 
+		{ 
+			List<JoinedGroup> userGroups =_groupRepository.GetJoinedGroups(newJoin.UserId);
+
+			bool hasJoined = userGroups.FirstOrDefault(r => r.GroupId == newJoin.GroupId) != null;
+
+			if (!hasJoined)
+			{
+				_groupRepository.AddUserToGroup(newJoin);
+				return Ok();
+			}
+			else
+			{
+				return BadRequest();
+			}
+		}
+
 	}
+
+
 }
