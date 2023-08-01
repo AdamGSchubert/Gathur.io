@@ -35,6 +35,30 @@ export const GetAllGroups =()=>{
         }
     })
 }
+//userGroupJoin needs userId and GroupId
+export const UserJoinGroup =(userGroupJoin)=>{
+    return getToken().then((token)=>{
+        return fetch(`${groupApi}/JoinGroup`,{
+            method: "Post",
+            headers:{
+                Authorization: `Bearer ${token}`,
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(userGroupJoin)
+        }).then((res)=>{
+        if(res.ok){
+            console.log("successful group join")
+        }
+        else{
+            throw new Error(
+                "User join group failed"
+            )
+        }
+        })
+     })
+}
+
+
 export const SearchGroups =(search)=>{
     return fetch(`${groupApi}/search?searchTerm=${search}`)
     .then((res)=> {

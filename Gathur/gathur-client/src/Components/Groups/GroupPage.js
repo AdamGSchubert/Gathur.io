@@ -3,6 +3,8 @@ import { Card,CardBody,CardTitle,CardText} from "reactstrap";
 import { Post } from "../Posts/Post";
 import { PostByGroupId } from "../../Modules/PostManager";
 import { CreatePost } from "../Posts/CreatePost";
+import { UserJoinGroup } from "../../Modules/GroupManager";
+
 
 
 export const GroupPage =({GroupDetail,user })=>{
@@ -18,6 +20,18 @@ export const GroupPage =({GroupDetail,user })=>{
 
     const createPost =(data)=>{
         setAddPost(data)
+
+    }
+
+    const JoinGroup =(e)=>{
+        e.preventDefault()
+        var addGroup = {
+            GroupId: GroupDetail.id,
+            UserId: user.id
+        }
+        UserJoinGroup(addGroup)
+
+
     }
 
 
@@ -34,7 +48,7 @@ export const GroupPage =({GroupDetail,user })=>{
             <div className="col ">
                 <Card className="my-2">
                     <CardBody>
-                        <button className="btn btn-lgbtn btn-outline-success"> Join Group</button>
+                        <button className="btn btn-lgbtn btn-outline-success" onClick={(e)=>{JoinGroup(e)}}> Join Group</button>
                     </CardBody>
                 </Card>
             </div>
