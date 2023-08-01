@@ -1,7 +1,16 @@
+import { useEffect,useState } from "react"
 import {Card,CardHeader,ListGroup,ListGroupItem } from "reactstrap"
 import {Link} from "react-router-dom"
+import { GetUserGroups } from "../../Modules/GroupManager"
+
 
 export const GroupNav =()=>{
+
+    const [userGroups, setUserGroups]=useState([])
+
+useEffect(()=>{
+    GetUserGroups().then(setUserGroups)
+},[])
 
 
 return (<>
@@ -9,7 +18,7 @@ return (<>
     My Groups
     </button>
 
-<div  className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+<div className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabIndex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
   <div className="offcanvas-header">
     {/* <h5 className="offcanvas-title" id="offcanvasExampleLabel">Groups</h5> */}
     <button className="btn btn-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" data-mdb-toggle="offcanvas" aria-controls="offcanvasExample">
@@ -27,21 +36,12 @@ return (<>
   </CardHeader>
   <ListGroup flush>
     {
-        //for each item in the my group list
-    //     <ListGroupItem>
-    //   <Link to="/">An item</Link>
-    // </ListGroupItem>
-        
+        userGroups.map((group)=>(
+            <ListGroupItem key={group.id}>
+      <Link to={`/group/${group.name}`}>g/{group.name}</Link>
+     </ListGroupItem>
+        ))   
     }
-    <ListGroupItem>
-      <Link to="/">An item</Link>
-    </ListGroupItem>
-    <ListGroupItem>
-      A second item
-    </ListGroupItem>
-    <ListGroupItem>
-      And a third item
-    </ListGroupItem>
   </ListGroup>
 </Card>
 </div>

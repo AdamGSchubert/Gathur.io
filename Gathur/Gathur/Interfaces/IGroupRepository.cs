@@ -6,6 +6,8 @@ namespace Gathur.Interfaces
     public interface IGroupRepository
     {
         Group GroupById(int id);
+
+        List<Group> AllGroups();
         List<Group> SearchGroups(string searchTerm);
 
         List<Group> UserGroups(int userId);

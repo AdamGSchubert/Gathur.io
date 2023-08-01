@@ -17,3 +17,41 @@ export const getRandomPosts =()=>{
     })
     
 }
+
+
+export const PostByGroupId =(groupId)=>{
+    return fetch(`${postApi}/${groupId}`)
+    .then((res)=> {
+        if(res.ok){
+            return res.json()
+        }
+        else{
+            throw new Error(
+                " Posts by group id fetch did not return status 200"
+            )
+        }
+    })
+}
+
+export const NewPost =(newPost)=>{
+    return getToken().then((token)=>{
+        return fetch(postApi,{
+            method: "POST",
+            headers:{
+                authorization: `Bearer ${token}`,
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(newPost)
+        }).then((response) =>{
+            if(response.ok){
+                console.log("post successful")
+            }
+            else {
+                throw new Error(
+                    "new post failed"
+                );
+            }
+        })    
+    })
+}
+

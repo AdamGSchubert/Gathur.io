@@ -19,11 +19,11 @@ namespace Gathur.Repositories
 				conn.Open();
 				using (var cmd = conn.CreateCommand())
 				{
-					cmd.CommandText = @"select Id, [name], Description 
-										FROM [Gathur].[dbo].[Group]
-										where [Name] like '%@search%'";
+					cmd.CommandText = @"select Id, [Name], Description 
+										FROM [Group]
+										where [Name] like @search";
 
-					DbUtils.AddParameter(cmd, "@search", searchTerm);
+					DbUtils.AddParameter(cmd, "@search", $"%{searchTerm}%");
 					var reader = cmd.ExecuteReader();
 
 					var groups = new List<Group>();
@@ -44,6 +44,35 @@ namespace Gathur.Repositories
 		}
 
 
+		public List<Group> AllGroups()
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				using (var cmd = conn.CreateCommand())
+				{
+					cmd.CommandText = @"select Id, [name], Description 
+										FROM [Gathur].[dbo].[Group]";
+
+					var reader = cmd.ExecuteReader();
+
+					var groups = new List<Group>();
+					while (reader.Read())
+					{
+						groups.Add(new Group()
+						{
+							Id = DbUtils.GetInt(reader, "Id"),
+							Name = DbUtils.GetString(reader, "Name"),
+							Description = DbUtils.GetString(reader, "Description")
+
+						});
+					}
+					reader.Close();
+					return groups;
+
+				}
+			}
+		}
 		public Group GroupById(int id)
 		{
 			using (var conn = Connection)
