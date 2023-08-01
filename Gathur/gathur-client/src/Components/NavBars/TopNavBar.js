@@ -14,17 +14,39 @@ import {   Collapse,
     NavbarText,} from "reactstrap";
     import { Link  } from "react-router-dom"
 import { logout } from "../../Modules/AuthManager";
+import { SearchGroups } from "../../Modules/GroupManager";
 
 
-export const TopNavBar =( {isLoggedIn}, user )=>{
+export const TopNavBar =( {isLoggedIn, user} )=>{
+  const navigate = useNavigate()
 
+    const [searchResults, setSearchResults]=useState([])
+    const [searchTerm, setSearchTerm]=useState(null)
+
+  // const search =(searchTerm)=>{
+  //   //e.preventDefault
+  //   SearchGroups(searchTerm).then(setSearchResults)
     
-// const topLogout =(e)=>{
-//   e.preventDefault()
-//   isLoggedIn(false)
-//   logout()
-// }
-  
+
+
+  // }
+
+  useEffect(()=>{
+    if(searchTerm!=null)
+    {
+      SearchGroups(searchTerm).then(setSearchResults)
+    }
+  },[searchTerm])
+
+  const getUserImage =()=>{
+    if(user){
+      if (user.avatarImgUrl){
+        return user.avatarImgUrl;
+      }
+    }
+    return "/Images/abstract-user-flat-4.svg";
+
+  }
    
 return ( <nav className="navbar navbar-expand-lg bg-body-tertiary  " data-bs-theme="dark">
 <div className="container-fluid">
@@ -35,24 +57,24 @@ return ( <nav className="navbar navbar-expand-lg bg-body-tertiary  " data-bs-the
   <div className="collapse navbar-collapse" id="navbarSupportedContent">
     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
       <li className="nav-item">
-        <a className="nav-link active" aria-current="page" href="/home">Home</a>
+        <a className="nav-link active" aria-current="page" href="/">Home</a>
       </li>
       <li className="nav-item">
         <a className="nav-link" href="#">Link</a>
       </li>
     </ul>
-    <form className="d-flex" role="search">
-      <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+    <form className="d-flex" role="search" >
+      <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChange={(e)=>(setSearchTerm(e.target.value))}/>
       <button className="btn btn-outline-success" type="submit">Search</button>
     </form>
-    
+     
     {/* <button type="button" class="btn btn-danger"onClick={(e)=>(topLogout(e))}>Logout</button> */}
         {isLoggedIn==true ? (<>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
         {/* //<!-- Avatar --> */}
           <Link to="/profile">
-            <img src={user.avatarImgUrl} className="rounded-circle" 
-            height="22" alt="logged in avatar" loading="lazy"  />
+            <img src={getUserImage()} className="rounded-circle" 
+            height="22" width="22" alt="logged in avatar" loading="lazy"  />
           </Link>
           {/* <ul className="dropdown-menu">
           <a aria-current="page" className="nav-link"
@@ -69,7 +91,7 @@ return ( <nav className="navbar navbar-expand-lg bg-body-tertiary  " data-bs-the
         <><nav className="navbar navbar-expand-lg navbar-light bg-light">
         {/* //<!-- Avatar --> */}
           <Link to="/login">
-            <img src="https://freesvg.org/img/abstract-user-flat-4.png" alt="logged out avatar" className="rounded-circle" width={50}/>
+            <img src="/Images/abstract-user-flat-4.svg" alt="logged out avatar" className="rounded-circle" width={50}/>
           </Link>
           <ul className="dropdown-menu">
           <a aria-current="page" className="nav-link"

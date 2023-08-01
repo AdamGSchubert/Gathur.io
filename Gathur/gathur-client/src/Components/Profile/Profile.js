@@ -6,11 +6,14 @@ import { Card,CardBody,CardTitle,CardText} from "reactstrap";
 export const ProfileGen =( {userProfile, appLogoutCallback} )=>{
  const navigate = useNavigate()
 
-   // export const isLoggedIn = null;
+   const [user, setUser]=useState({})
 
-    // useEffect(()=>{
-
-    //  },[userProfile])
+    useEffect(()=>{
+        if(userProfile)
+        {
+            setUser(userProfile)
+        }
+     },[userProfile])
 
     const exit =()=>{
             //logout()
@@ -23,26 +26,26 @@ export const ProfileGen =( {userProfile, appLogoutCallback} )=>{
         <Card>
             <CardBody>
                 <form>
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Username</label>
+                <div className="mb-3">
+                    <label htmlFor="exampleFormControlInput1" className="form-label">Username</label>
                     
-                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder={userProfile.userName}/>
+                    <input type="email" className="form-control" id="exampleFormControlInput1" placeholder={user.userName}/>
                     <button>update Username</button>
                     </div>
-                    <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder={userProfile.email}/>
+                    <div className="mb-3">
+                    <label htmlFor="exampleFormControlInput1" className="form-label">Email address</label>
+                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder={user.email}/>
                     </div>
-                    <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">zipcode</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder={userProfile.zipcode}/>
+                    <div className="mb-3">
+                    <label htmlFor="exampleFormControlInput1" className="form-label">zipcode</label>
+                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder={user.zipcode}/>
                     </div>
-                    <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Radius (miles)</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder={userProfile.radius}/>
+                    <div className="mb-3">
+                    <label htmlFor="exampleFormControlInput1" className="form-label">Radius (miles)</label>
+                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder={user.radius}/>
                     </div>
                     <div>
-                      <button type="button" class="btn btn-danger"onClick={exit}>Logout</button>  
+                      <button type="button" className="btn btn-danger"onClick={exit}>Logout</button>  
                     </div>
                 </form>
                 

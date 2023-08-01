@@ -1,6 +1,6 @@
 import { useEffect,useState } from "react"
 import { getRandomPosts } from "../Modules/PostManager"
-import { Post } from "./Post"
+import { Post } from "./Posts/Post"
 
 
 export const HomeLanding =()=>{
@@ -16,7 +16,7 @@ export const HomeLanding =()=>{
         {
             randomPosts.map((post)=>(
             <div padding={20}>   
-            <Post post={post}/>
+            <Post key={post.Id} post={post}/>
             </div> 
             ))
             

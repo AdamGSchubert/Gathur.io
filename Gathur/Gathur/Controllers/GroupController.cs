@@ -38,6 +38,11 @@ namespace Gathur.Controllers
 			return Ok(_groupRepository.UserGroups(signedUser.Id));
 		}
 
+		[HttpGet("allGroups")]
+		public IActionResult GetAllGroups() {
+			return Ok(_groupRepository.AllGroups());
+		}
+
 		[Authorize]
 		[HttpPost]
 		public IActionResult AddGroup(Group group)
@@ -77,6 +82,23 @@ namespace Gathur.Controllers
 			else
 			{//no match
 				return BadRequest();
+			}
+
+		}
+
+
+		[HttpGet("search")]
+		public IActionResult SearchGroup(string searchTerm) 
+		{
+			List<Group> results = _groupRepository.SearchGroups(searchTerm);
+
+			if (results.Count > 0)
+			{
+				return Ok(results);
+			}
+			else {
+				return NoContent();
+
 			}
 
 		}
