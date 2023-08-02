@@ -44,6 +44,7 @@ export const CreatePost =({GroupId, user, CancelPost })=>{
         
 
         NewPost(post);
+        CancelPost(false)
 
     }
 //

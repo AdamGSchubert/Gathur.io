@@ -225,7 +225,7 @@ namespace Gathur.Repositories
 			}
 		}
 
-
+		// below is joined group queries 
 		public List<JoinedGroup> GetJoinedGroups(int userId) 
 		{
 			using (var conn = Connection)
@@ -271,6 +271,24 @@ namespace Gathur.Repositories
 				}
 			}
 		}
+
+		public void RemoveUserGroup(JoinedGroup removeGroup)
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				using ( var cmd = conn.CreateCommand())
+				{
+					cmd.CommandText = @"delete from JoinedGroup
+										where UserId=@id And GroupId =@groupId";
+					DbUtils.AddParameter(cmd,"@id", removeGroup.UserId);
+					DbUtils.AddParameter(cmd, "@groupId", removeGroup.GroupId);
+
+					cmd.ExecuteNonQuery();
+				}
+			}
+		}
+
 	}
 
 	

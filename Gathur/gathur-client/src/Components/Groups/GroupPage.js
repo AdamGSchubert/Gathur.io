@@ -3,14 +3,16 @@ import { Card,CardBody,CardTitle,CardText} from "reactstrap";
 import { Post } from "../Posts/Post";
 import { PostByGroupId } from "../../Modules/PostManager";
 import { CreatePost } from "../Posts/CreatePost";
-import { UserJoinGroup } from "../../Modules/GroupManager";
+import { UserJoinGroup, RemoveUserGroup } from "../../Modules/GroupManager";
 
 
 
-export const GroupPage =({GroupDetail,user })=>{
+
+export const GroupPage =({GroupDetail, user, userGroups })=>{
 
     const [groupPosts, setGroupPosts]=useState([])
     const [addpost, setAddPost]=useState(false)
+    const [inGroup, setInGroup]=useState(false)
 
 
 
@@ -18,9 +20,25 @@ export const GroupPage =({GroupDetail,user })=>{
         PostByGroupId(GroupDetail.id).then(setGroupPosts)
     },[GroupDetail])
 
+    useEffect(()=>{
+        var xyz = userGroups.find((group)=>group.id==GroupDetail.id)
+        if(xyz)
+        {
+            setInGroup(true)
+        }
+        else{
+            setInGroup(false)
+        }
+
+    },[userGroups])
+
+    //reloads
+    useEffect(()=>{},[inGroup])
+    useEffect(()=>{PostByGroupId(GroupDetail.id).then(setGroupPosts)},[addpost])
+
     const createPost =(data)=>{
         setAddPost(data)
-
+        
     }
 
     const JoinGroup =(e)=>{
@@ -30,10 +48,18 @@ export const GroupPage =({GroupDetail,user })=>{
             UserId: user.id
         }
         UserJoinGroup(addGroup)
-
-
+        setInGroup(true)
     }
 
+    const RemoveGroup=(e)=>{
+        e.preventDefault() 
+        var removeGroup = {
+            GroupId: GroupDetail.id,
+            UserId: user.id
+        }
+        RemoveUserGroup(removeGroup)
+        setInGroup(false)
+    }
 
 
     return(<>
@@ -48,13 +74,15 @@ export const GroupPage =({GroupDetail,user })=>{
             <div className="col ">
                 <Card className="my-2">
                     <CardBody>
-                        <button className="btn btn-lgbtn btn-outline-success" onClick={(e)=>{JoinGroup(e)}}> Join Group</button>
+                       {inGroup ? <button className="btn btn-lgbtn btn-outline-success" onClick={(e)=>{RemoveGroup(e)}}> Leave Group</button>
+                        :<button className="btn btn-lgbtn btn-outline-success" onClick={(e)=>{JoinGroup(e)}}> Join Group</button>} 
                     </CardBody>
                 </Card>
             </div>
         </div>
         <div className="col">
-            { addpost ? <CreatePost GroupId={GroupDetail.id} user={user} CancelPost={createPost}/> : <button onClick={(e)=>{createPost(true)}}>add a post</button>}
+            { addpost ? <CreatePost GroupId={GroupDetail.id} user={user} CancelPost={createPost}/> 
+            : <button onClick={(e)=>{createPost(true)}}>add a post</button>}
 
         </div>
         </div>
@@ -63,7 +91,7 @@ export const GroupPage =({GroupDetail,user })=>{
     <Card >
         {
             groupPosts.map((post)=>(
-                <Post post={post}/>
+                <Post key={post.id} post={post}/>
             ))
         }
     </Card>

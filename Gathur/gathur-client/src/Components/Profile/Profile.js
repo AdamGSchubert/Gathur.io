@@ -34,15 +34,15 @@ export const ProfileGen =( {userProfile, appLogoutCallback} )=>{
                     </div>
                     <div className="mb-3">
                     <label htmlFor="exampleFormControlInput1" className="form-label">Email address</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder={user.email}/>
+                        <input type="email" className="form-control" id="exampleFormControlInput1" placeholder={user.email}/>
                     </div>
                     <div className="mb-3">
                     <label htmlFor="exampleFormControlInput1" className="form-label">zipcode</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder={user.zipcode}/>
+                        <input type="email" className="form-control" id="exampleFormControlInput1" placeholder={user.zipcode}/>
                     </div>
                     <div className="mb-3">
                     <label htmlFor="exampleFormControlInput1" className="form-label">Radius (miles)</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder={user.radius}/>
+                        <input type="email" className="form-control" id="exampleFormControlInput1" placeholder={user.radius}/>
                     </div>
                     <div>
                       <button type="button" className="btn btn-danger"onClick={exit}>Logout</button>  

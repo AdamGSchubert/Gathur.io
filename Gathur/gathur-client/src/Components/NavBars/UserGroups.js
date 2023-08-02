@@ -4,13 +4,8 @@ import {Link} from "react-router-dom"
 import { GetUserGroups } from "../../Modules/GroupManager"
 
 
-export const GroupNav =()=>{
+export const GroupNav =({myUserGroups})=>{
 
-    const [userGroups, setUserGroups]=useState([])
-
-useEffect(()=>{
-    GetUserGroups().then(setUserGroups)
-},[])
 
 
 return (<>
@@ -36,7 +31,7 @@ return (<>
   </CardHeader>
   <ListGroup flush>
     {
-        userGroups.map((group)=>(
+        myUserGroups.map((group)=>(
             <ListGroupItem key={group.id}>
       <Link to={`/group/${group.name}`}>g/{group.name}</Link>
      </ListGroupItem>
@@ -46,9 +41,6 @@ return (<>
 </Card>
 </div>
     </div>
-  
-  
-  
 </>
     )
 }
