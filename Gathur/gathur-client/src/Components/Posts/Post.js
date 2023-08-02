@@ -2,7 +2,7 @@ import { Card,CardBody,CardTitle,CardText,CardSubtitle} from "reactstrap";
 import {Link} from 'react-router-dom';
 
 
-export const Post =({post})=>{
+export const Post =({post, Group})=>{
 
     return(
         <Card
@@ -14,7 +14,7 @@ export const Post =({post})=>{
             <CardBody>
                 
                 <CardTitle>
-                    <Link>{post.title}</Link>
+                    <Link to={`/group/${Group}/${post.title}`}>{post.title}</Link>
                     </CardTitle>
                     <CardSubtitle>u/{post.author.userName}</CardSubtitle>
                 

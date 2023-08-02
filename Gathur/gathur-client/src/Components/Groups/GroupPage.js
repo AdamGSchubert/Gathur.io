@@ -91,7 +91,7 @@ export const GroupPage =({GroupDetail, user, userGroups })=>{
     <Card >
         {
             groupPosts.map((post)=>(
-                <Post key={post.id} post={post}/>
+                <Post key={post.id} post={post} Group={GroupDetail.name}/>
             ))
         }
     </Card>

@@ -36,8 +36,11 @@ export default function ApplicationViews({ isLoggedIn, user,
                 {
                    groups.map((group)=>
                    <Route key={group.id} 
-                   path={`/group/${group.name}`} 
-                   element={<GroupPage GroupDetail={group} user={user} userGroups={loggedUserGroups}/> }/>)
+                   path={`${group.name}`} 
+                   element={<GroupPage GroupDetail={group} user={user} userGroups={loggedUserGroups}/> }/>
+                  
+                   )
+                   
                 }
                   
                </Route> 
