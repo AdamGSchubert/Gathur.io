@@ -57,7 +57,27 @@ export const UserJoinGroup =(userGroupJoin)=>{
         })
      })
 }
-
+export const RemoveUserGroup =(groupToRemove)=>{
+    return getToken().then((token)=>{
+        return fetch(`${groupApi}`,{
+            method: "DELETE",
+            headers:{
+                Authorization: `Bearer ${token}`,
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(groupToRemove)
+        }).then((res)=>{
+        if(res.ok){
+            console.log("successful group removal")
+        }
+        else{
+            throw new Error(
+                "User group removal failed"
+            )
+        }
+        })
+     })
+}
 
 export const SearchGroups =(search)=>{
     return fetch(`${groupApi}/search?searchTerm=${search}`)

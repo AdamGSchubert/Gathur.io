@@ -17,12 +17,16 @@ namespace Gathur.Interfaces
         void UpdateGroup(Group group);
 
         void AddUserToGroupAdmin(int userId, int groupId);
+        List<GroupAdmin> GetGroupAdmins(int groupId);
 
+        //join group 
         void AddUserToGroup(JoinedGroup groupJoin);
         List<JoinedGroup> GetJoinedGroups(int userId);
 
+        void RemoveUserGroup(JoinedGroup removeGroup);
 
-		List<GroupAdmin> GetGroupAdmins(int groupId);
+
+		
 
 
 	}

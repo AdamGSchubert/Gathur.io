@@ -123,6 +123,13 @@ namespace Gathur.Controllers
 			}
 		}
 
+		[Authorize]
+		[HttpDelete]
+		public IActionResult RemoveUserGroup(JoinedGroup removeGroup) {
+			_groupRepository.RemoveUserGroup(removeGroup);
+			return NoContent();
+		}
+
 	}
 
 

@@ -9,7 +9,8 @@ import { GroupNav } from "./NavBars/UserGroups";
 import { GetAllGroups } from "../Modules/GroupManager";
 import { GroupPage } from "./Groups/GroupPage";
 
-export default function ApplicationViews({ isLoggedIn, user, appLogoutCallback }) {
+export default function ApplicationViews({ isLoggedIn, user, 
+  appLogoutCallback,loggedUserGroups }) {
 
   const [groups, setGroups]=useState([])
 
@@ -34,7 +35,9 @@ export default function ApplicationViews({ isLoggedIn, user, appLogoutCallback }
               <Route path="group">
                 {
                    groups.map((group)=>
-                   <Route key={group.id} path={`/group/${group.name}`} element={<GroupPage GroupDetail={group} user={user}/> }/>)
+                   <Route key={group.id} 
+                   path={`/group/${group.name}`} 
+                   element={<GroupPage GroupDetail={group} user={user} userGroups={loggedUserGroups}/> }/>)
                 }
                   
                </Route> 
