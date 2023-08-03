@@ -105,7 +105,7 @@ export const GroupPage =({ user, userGroups })=>{
             </div>
         </div>
         <div className="col">
-            { addpost ? <CreatePost GroupId={GroupDetail.id} user={user} CancelPost={createPost}/> 
+            { addpost ? <CreatePost GroupId={GroupDetail.id} user={user} CancelPost={createPost} userGroupList={userGroups}/> 
             : <button onClick={(e)=>{createPost(true)}}>add a post</button>}
 
         </div>
