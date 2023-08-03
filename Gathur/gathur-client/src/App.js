@@ -8,6 +8,7 @@ import { onLoginStatusChange,me, logout } from './Modules/AuthManager';
 import {Spinner} from 'reactstrap';
 import { GroupNav } from './Components/NavBars/UserGroups';
 import { GetUserGroups } from './Modules/GroupManager';
+import { SearchResult } from './Components/NavBars/SearchResult';
 
 
 
@@ -16,6 +17,8 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
   const [userGroups, setUserGroups]=useState([])
+  const [search, setSearch]=useState(false)
+  const [searchResults, setSearchResults]=useState([])
 
   useEffect(() => {
     onLoginStatusChange(setIsLoggedIn);
@@ -36,19 +39,27 @@ function App() {
     
   },[isLoggedIn])
 
+  useEffect(()=>{},[search])
 
   const callback =(data)=>{
       setIsLoggedIn(data)
       logout()
   }
 
+  const searchCallBack =(data,result)=>{
+    setSearch(data)
+    setSearchResults(result)
+  }
+
+
   if (isLoggedIn === null) {
     return <Spinner className="app-spinner dark" />;
   }
   return (
     <Router>
-      <TopNavBar isLoggedIn={isLoggedIn} user={userProfile}/>
+      <TopNavBar isLoggedIn={isLoggedIn} user={userProfile} runSearch={searchCallBack}/>
       {isLoggedIn ? <GroupNav myUserGroups={userGroups}/> : ""}
+      {search ? <SearchResult runSearch={searchCallBack} results={searchResults} user={userProfile}/>:""}
       <ApplicationViews isLoggedIn={isLoggedIn} user={userProfile} appLogoutCallback={callback} loggedUserGroups={userGroups} />
       
     </Router>

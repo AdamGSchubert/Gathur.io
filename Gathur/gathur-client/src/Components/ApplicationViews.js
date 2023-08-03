@@ -9,6 +9,7 @@ import { GroupNav } from "./NavBars/UserGroups";
 import { GetAllGroups } from "../Modules/GroupManager";
 import { GroupPage } from "./Groups/GroupPage";
 import { PostWithCommentList } from "./Posts/PostComments";
+import { SearchResult } from "./NavBars/SearchResult";
 
 export default function ApplicationViews({ isLoggedIn, user, 
   appLogoutCallback,loggedUserGroups }) {
@@ -36,6 +37,7 @@ export default function ApplicationViews({ isLoggedIn, user,
             <Route path="profile" element={<ProfileGen userProfile={user} appLogoutCallback={appLogoutCallback} />}/>
             
             <Route path="mygroups" element={<GroupNav/>}/>
+            {/* <Route path=":searchTerm" element={<SearchResult/>}/> */}
             {/* </Route>
             <Route> */}
               <Route path="group">
