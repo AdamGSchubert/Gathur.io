@@ -28,18 +28,18 @@ export default function ApplicationViews({ isLoggedIn, user,
               index
               element={isLoggedIn ? <HomeLanding /> : <HomeLanding />}
             />
-            <Route path="login" element={<Login />} />
+            <Route path="login">
+                  <Route index element={<Login />} />
+                  <Route path="register" element={<Register />} />  
+            </Route>
+            
             <Route path="profile" element={<ProfileGen userProfile={user} appLogoutCallback={appLogoutCallback} />}/>
-            <Route path="register" element={<Register />} />
+            
             <Route path="mygroups" element={<GroupNav/>}/>
             {/* </Route>
             <Route> */}
               <Route path="group">
-                
-                  
-                <Route 
-                   path= ":name"
-                   >
+                <Route path= ":name">
                   <Route index element={<GroupPage user={user} userGroups={loggedUserGroups}/> }/>
                     <Route  path= ":postTitleId"
                   element={<PostWithCommentList User={user}/>}/>

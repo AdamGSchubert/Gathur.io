@@ -106,10 +106,10 @@ namespace Gathur.Repositories
 				conn.Open(); //open the connection to the DB
 				using (var cmd = conn.CreateCommand())
 				{
-					cmd.CommandText = @"insert into [User] ( UserName,[Password], FirstName, LastName, Email,CreateDateTime,  AvatarImageUrl, Radius,Zipcode ) 
+					cmd.CommandText = @"insert into [User] ( UserName,FirebaseUserId, FirstName, LastName, Email,CreateDateTime,  AvatarImageUrl, Radius,Zipcode ) 
 							output Inserted.Id
 							values (@username,
-							 @password,
+							 @firebase,
 							@firstname,@lastname, 
 							@email,
 							@createdDate,
@@ -120,7 +120,7 @@ namespace Gathur.Repositories
 							";
 				
 					DbUtils.AddParameter(cmd,"@username", newUser.UserName);
-					//DbUtils.AddParameter(cmd, "@password", FirebaseUserId);
+					DbUtils.AddParameter(cmd, "@firebase", newUser.FirebaseUserId);
 					DbUtils.AddParameter(cmd, "@firstname", newUser.FirstName);
 					DbUtils.AddParameter(cmd, "@lastname", newUser.LastName);
 					DbUtils.AddParameter(cmd, "@email", newUser.Email);
