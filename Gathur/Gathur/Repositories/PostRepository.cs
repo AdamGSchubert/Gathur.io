@@ -7,6 +7,8 @@ using System;
 using System.Text.RegularExpressions;
 using Group = Gathur.Models.Group;
 using Microsoft.Extensions.Hosting;
+using System.Net;
+using System.Reflection.Metadata;
 
 namespace Gathur.Repositories
 {
@@ -118,13 +120,13 @@ namespace Gathur.Repositories
 			conn.Open();
 			using ( var cmd =conn.CreateCommand())
 				{
-					cmd.CommandText = @"select Post.Id as PostId, UserName, GroupId, Title, Content, PostType.Name as PostTypeName, SubmitTime, MeetingZip, Address,
-										EditTime,[User].Id as UserId, Group.Name as GroupName, PostType.Id as PostTypeId
+					cmd.CommandText = @" select Post.Id as PostId, UserName, GroupId, Title, Content, PostType.Name as PostTypeName, SubmitTime, MeetingZip, Address,
+										Post.EditTime,[User].Id as UserId, [Group].[Name] as GroupName, PostType.Id as PostTypeId
 										from Post
 										join [User] on Post.AuthorId = [User].Id
 										join PostType on Post.PostTypeId = PostType.Id
-										join Group on Post.GroupId= Group.Id
-										where Post.Id = @id";
+										join [Group] on Post.GroupId = [Group].Id
+										where Post.Id = @id" ;
 					cmd.Parameters.AddWithValue("@id", id);
 
 					var reader = cmd.ExecuteReader();
@@ -150,7 +152,7 @@ namespace Gathur.Repositories
 						post.SubmitTime = DbUtils.GetDateTime(reader, "SubmitTime");
 						post.EditTime = DbUtils.GetNullableDateTime(reader, "EditTime");
 						post.Address = DbUtils.GetString(reader, "address");
-						post.Zipcode = DbUtils.GetInt(reader, "MeetingZip");
+						post.Zipcode = DbUtils.GetNullableInt(reader, "MeetingZip");
 						post.PostType = new PostType()
 						{
 							Id = DbUtils.GetInt(reader, "PostTypeId"),

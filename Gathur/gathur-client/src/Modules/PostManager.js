@@ -55,3 +55,19 @@ export const NewPost =(newPost)=>{
     })
 }
 
+
+export const GetPostbyId=(postId)=>{
+    return fetch(`${postApi}/getbyId?id=${postId}`)
+    .then((response) =>{
+        if(response.ok){
+            return response.json() 
+        } 
+        else{
+            throw new Error(
+                "get post by Post Id has failed"
+            )
+        }
+    }
+  )
+    
+}

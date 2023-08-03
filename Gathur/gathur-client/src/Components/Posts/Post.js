@@ -1,8 +1,34 @@
 import { Card,CardBody,CardTitle,CardText,CardSubtitle} from "reactstrap";
+import { useEffect, useState } from "react";
 import {Link} from 'react-router-dom';
+import { isNullOrUndefined } from "../../Util";
 
 
 export const Post =({post, Group})=>{
+
+
+    const [timeStamp, setTimeStamp]=useState("")
+    const [author, setAuthor]=useState({})
+
+    useEffect(()=>{
+        if(post !=null && post!=undefined)
+        {
+            var abc=new Date(post.submitTime).toLocaleDateString(`en-us`)
+            setTimeStamp(abc)
+        }
+    },[post])
+    useEffect(()=>{
+        // if(post.author!=null && post.author!=undefined)
+        if(!isNullOrUndefined(post.author)
+            && 
+            !isNullOrUndefined(post.author.userName))
+        {
+           
+             setAuthor(post.author)
+            
+           
+        }
+    },[post])
 
     return(
         <Card
@@ -14,13 +40,19 @@ export const Post =({post, Group})=>{
             <CardBody>
                 
                 <CardTitle>
-                    <Link to={`/group/${Group}/${post.title}`}>{post.title}</Link>
+                    <Link to={`/group/${Group}/${encodeURIComponent(post.title)}pid=${post.id}`}>{post.title}</Link>
                     </CardTitle>
-                    <CardSubtitle>u/{post.author.userName}</CardSubtitle>
+                   {
+                    
+                        <CardSubtitle>  u/{author.userName} </CardSubtitle>
+
+                    }
                 
                 <div>
                     <CardText>{post.content}</CardText>
                     </div>
+                    <div className="clearfix"></div>
+                    <div className="md-3"><p>submitted: {timeStamp}</p></div>
                     <button className="btn"><i className="fa fa-comments"></i></button>
                 
                 

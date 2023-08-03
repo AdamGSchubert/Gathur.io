@@ -8,7 +8,9 @@ namespace Gathur.Interfaces
         Group GroupById(int id);
 
         List<Group> AllGroups();
-        List<Group> SearchGroups(string searchTerm);
+        Group GetGroupbyName(string name);
+
+		List<Group> SearchGroups(string searchTerm);
 
         List<Group> UserGroups(int userId);
 

@@ -8,11 +8,13 @@ import { ProfileGen } from "./Profile/Profile";
 import { GroupNav } from "./NavBars/UserGroups";
 import { GetAllGroups } from "../Modules/GroupManager";
 import { GroupPage } from "./Groups/GroupPage";
+import { PostWithCommentList } from "./Posts/PostComments";
 
 export default function ApplicationViews({ isLoggedIn, user, 
   appLogoutCallback,loggedUserGroups }) {
 
   const [groups, setGroups]=useState([])
+  const [groupPosts, setGroupPosts]=useState([])
 
   useEffect(()=>{
     GetAllGroups().then(setGroups)
@@ -30,19 +32,20 @@ export default function ApplicationViews({ isLoggedIn, user,
             <Route path="profile" element={<ProfileGen userProfile={user} appLogoutCallback={appLogoutCallback} />}/>
             <Route path="register" element={<Register />} />
             <Route path="mygroups" element={<GroupNav/>}/>
-            </Route>
-            <Route>
+            {/* </Route>
+            <Route> */}
               <Route path="group">
-                {
-                   groups.map((group)=>
-                   <Route key={group.id} 
-                   path={`${group.name}`} 
-                   element={<GroupPage GroupDetail={group} user={user} userGroups={loggedUserGroups}/> }/>
+                
                   
-                   )
-                   
-                }
-                  
+                <Route 
+                   path= ":name"
+                   >
+                  <Route index element={<GroupPage user={user} userGroups={loggedUserGroups}/> }/>
+                    <Route  path= ":postTitleId"
+                  element={<PostWithCommentList User={user}/>}/>
+                    
+                    </Route>    
+            
                </Route> 
             </Route>
         </Routes>

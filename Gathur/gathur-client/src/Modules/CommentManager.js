@@ -16,3 +16,25 @@ export const  GetPostComments =(postId)=>{
     })
     
 }
+
+export const AddComment=(newComment)=>{
+    return getToken().then((token)=>{
+        return fetch(commentApi,{
+            method: "POST",
+            headers:{
+                authorization: `Bearer ${token}`,
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(newComment)
+        }).then((response) =>{
+            if(response.ok){
+                console.log("comment successful")
+            }
+            else {
+                throw new Error(
+                    "new comment failed"
+                );
+            }
+        })    
+    })
+}

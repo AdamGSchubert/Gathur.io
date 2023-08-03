@@ -44,6 +44,31 @@ namespace Gathur.Controllers
 			return Ok(_groupRepository.AllGroups());
 		}
 
+		[HttpGet("getByName")]
+		public IActionResult GetGroupByName(string name) {
+			
+			Group result = _groupRepository.GetGroupbyName(name);
+
+			if(result != null)
+			{
+				return Ok(result);
+			}
+			return BadRequest();
+			
+		}
+
+		[HttpGet("getbyId")]
+		public IActionResult GetGroupById(int id)
+		{
+			Group result = _groupRepository.GroupById(id);
+
+			if (result != null)
+			{
+				return Ok(result);
+			}
+			return BadRequest();
+		}
+
 		[Authorize]
 		[HttpPost]
 		public IActionResult AddGroup(Group group)

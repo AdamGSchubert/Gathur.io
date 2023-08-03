@@ -17,5 +17,7 @@ namespace Gathur.Interfaces
 
         void UpdatePost(int id, Post post);
 
+        
+
 	}
 }

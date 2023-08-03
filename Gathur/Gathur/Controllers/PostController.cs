@@ -32,6 +32,14 @@ namespace Gathur.Controllers
 		{
 			return Ok(_postRepository.GetRandomPosts());
 		}
+
+		[HttpGet("getbyId")]
+		public IActionResult GetPostbyId(int id) {
+			return Ok(_postRepository.GetPostById(id));
+
+		}
+
+
 		[Authorize]
 		[HttpPost]
 		public IActionResult AddPost(Post post)

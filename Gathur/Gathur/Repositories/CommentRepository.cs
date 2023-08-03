@@ -24,7 +24,8 @@ namespace Gathur.Repositories
 										UserName, AvatarImageUrl
 										from Comment
 										join [User] on Comment.AuthorId =[User].Id
-										where PostId =@id";
+										where PostId =@id
+										order by SubmitTime desc";
 					DbUtils.AddParameter(cmd, "@id", postId);
 
 					var reader = cmd.ExecuteReader();
@@ -95,7 +96,7 @@ namespace Gathur.Repositories
 										output inserted.Id
 										Values (@postId, @authorId, @content, @submitTime)";
 					DbUtils.AddParameter(cmd, "@postId", newComment.PostId);
-					DbUtils.AddParameter(cmd, "@authorId", newComment.Author.Id);
+					DbUtils.AddParameter(cmd, "@authorId", newComment.AuthorId);
 					DbUtils.AddParameter(cmd, "@content", newComment.Content);
 					DbUtils.AddParameter(cmd, "@submitTime", DateTime.Now);
 

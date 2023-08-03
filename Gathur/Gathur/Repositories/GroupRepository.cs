@@ -104,6 +104,37 @@ namespace Gathur.Repositories
 				}
 			}
 		}
+		
+		public Group GetGroupbyName(string name)
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				using(var cmd = conn.CreateCommand())
+				{
+					cmd.CommandText = @"select Id, [Name], Description 
+										from [Gathur].[dbo].[Group]
+										where [Name] like @name";
+					DbUtils.AddParameter(cmd, "@name", $"%{name}%");
+					
+
+					var reader = cmd.ExecuteReader();
+					Group group = new Group();
+					if (reader.Read())
+					{
+						group.Id=DbUtils.GetInt(reader,"Id");
+						group.Name=DbUtils.GetString(reader, "Name");
+						group.Description=DbUtils.GetString(reader, "Description");
+					}
+					reader.Close();
+					return group;
+				}
+			}
+		}
+
+
+
+
 
 		public List<Group> UserGroups(int userId)
 		{
