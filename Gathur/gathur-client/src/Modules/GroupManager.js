@@ -64,6 +64,28 @@ export const GetAllGroups =()=>{
         }
     })
 }
+
+export const CreateNewGroup =(newGroup)=>{
+    return getToken().then((token)=>{
+        return fetch(groupApi, { 
+            method: "Post",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "content-type": "application/json"},
+                body: JSON.stringify(newGroup)
+            })
+        .then((res)=> {
+            if(res.ok){
+                return res.json()
+            }
+            else{
+                throw new Error(
+                    "Create new Group has failed"
+                )
+            }
+        })
+    })
+}
 //userGroupJoin needs userId and GroupId
 export const UserJoinGroup =(userGroupJoin)=>{
     return getToken().then((token)=>{

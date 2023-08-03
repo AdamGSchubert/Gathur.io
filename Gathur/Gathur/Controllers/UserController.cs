@@ -55,7 +55,7 @@ namespace Gathur.Controllers
 				nameof(login)
 				, newUser);
 		}
-
+		[Authorize]
 		[HttpGet("Me")]
 		public IActionResult Me()
 		{

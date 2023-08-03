@@ -2,9 +2,12 @@ import { Card,CardBody,CardTitle,CardText,CardSubtitle} from "reactstrap";
 import { useEffect, useState } from "react";
 import {Link} from 'react-router-dom';
 import { isNullOrUndefined } from "../../Util";
+import {useNavigate} from "react-router-dom";
 
 
 export const Post =({post, Group})=>{
+
+    const navigate=useNavigate()
 
 
     const [timeStamp, setTimeStamp]=useState("")
@@ -53,7 +56,8 @@ export const Post =({post, Group})=>{
                     </div>
                     <div className="clearfix"></div>
                     <div className="md-3"><p>submitted: {timeStamp}</p></div>
-                    <button className="btn"><i className="fa fa-comments"></i></button>
+                    <button className="btn" onClick={(e)=>{navigate(`/group/${Group}/${encodeURIComponent(post.title)}pid=${post.id}`)}}
+                        ><i className="fa fa-comments"></i></button>
                 
                 
             </CardBody>

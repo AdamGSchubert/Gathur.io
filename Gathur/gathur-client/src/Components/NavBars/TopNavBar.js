@@ -15,12 +15,13 @@ import {   Collapse,
     import { Link  } from "react-router-dom"
 import { logout } from "../../Modules/AuthManager";
 import { SearchGroups } from "../../Modules/GroupManager";
+import { isNullOrUndefined } from "../../Util";
 
 
-export const TopNavBar =( {isLoggedIn, user} )=>{
+export const TopNavBar =( {isLoggedIn, user, runSearch} )=>{
   const navigate = useNavigate()
 
-    const [searchResults, setSearchResults]=useState([])
+     const [searchResults, setSearchResults]=useState([])
     const [searchTerm, setSearchTerm]=useState(null)
 
   // const search =(searchTerm)=>{
@@ -32,9 +33,11 @@ export const TopNavBar =( {isLoggedIn, user} )=>{
   // }
 
   useEffect(()=>{
-    if(searchTerm!=null)
+    if(!isNullOrUndefined(searchTerm))
     {
+      
       SearchGroups(searchTerm).then(setSearchResults)
+
     }
   },[searchTerm])
 
@@ -46,6 +49,10 @@ export const TopNavBar =( {isLoggedIn, user} )=>{
     }
     return "/Images/abstract-user-flat-4.svg";
 
+  }
+  const search =(e)=>{
+    e.preventDefault()
+      runSearch(true,searchResults)
   }
    
 return ( <nav className="navbar navbar-expand-lg bg-body-tertiary  " data-bs-theme="dark">
@@ -63,9 +70,9 @@ return ( <nav className="navbar navbar-expand-lg bg-body-tertiary  " data-bs-the
         <a className="nav-link" href="#">Link</a>
       </li>
     </ul>
-    <form className="d-flex" role="search" >
+    <form className="d-flex" role="search" onSubmit={(e)=>search(e)}>
       <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChange={(e)=>(setSearchTerm(e.target.value))}/>
-      <button className="btn btn-outline-success" type="submit">Search</button>
+      <button className="btn btn-outline-success" type="submit" >Search</button>
     </form>
      
     {/* <button type="button" class="btn btn-danger"onClick={(e)=>(topLogout(e))}>Logout</button> */}
