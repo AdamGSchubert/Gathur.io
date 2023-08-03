@@ -33,7 +33,7 @@ return (<>
     {
         myUserGroups.map((group)=>(
             <ListGroupItem key={group.id}>
-      <Link to={`/group/${group.name}`}>g/{group.name}</Link>
+      <Link to={`group/${group.name}`}>g/{group.name}</Link>
      </ListGroupItem>
         ))   
     }

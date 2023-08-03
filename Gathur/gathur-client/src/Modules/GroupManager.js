@@ -22,6 +22,35 @@ export const GetUserGroups =()=>{
         }))
 }
 
+export const GetGroupByName=(name)=>{
+    return fetch(`${groupApi}/getByName?name=${name}`)
+    .then((res)=>{
+        if(res.ok)
+        {
+            return res.json()
+        }
+        else{
+            throw new Error(
+                "get group details by name return error."
+            )
+        }
+    })
+}
+
+export const GetGroupById=(groupId)=>{
+    return fetch(`${groupApi}/getbyId?id=${groupId}`)
+    .then((response) =>{   
+        if(response.ok){
+        response.json()
+        }
+        else {
+            throw new Error(" get group by Id did not return status 200" )
+        }
+    }
+        )
+    
+}
+
 export const GetAllGroups =()=>{
     return fetch(`${groupApi}/allGroups`)
     .then((res)=> {

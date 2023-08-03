@@ -1,26 +1,43 @@
-import { useEffect,useState } from "react"
+import { useEffect,useState, } from "react"
 import { Card,CardBody,CardTitle,CardText} from "reactstrap";
 import { Post } from "../Posts/Post";
 import { PostByGroupId } from "../../Modules/PostManager";
 import { CreatePost } from "../Posts/CreatePost";
-import { UserJoinGroup, RemoveUserGroup } from "../../Modules/GroupManager";
+import { UserJoinGroup, RemoveUserGroup, GetGroupByName } from "../../Modules/GroupManager";
+import {useParams} from "react-router-dom"
+import { isNullOrUndefined } from "../../Util";
 
 
 
 
-export const GroupPage =({GroupDetail, user, userGroups })=>{
+export const GroupPage =({ user, userGroups })=>{
+    const {name} = useParams()
 
     const [groupPosts, setGroupPosts]=useState([])
     const [addpost, setAddPost]=useState(false)
     const [inGroup, setInGroup]=useState(false)
-
-
+    const [GroupDetail, setGroupDetail]=useState({})
 
     useEffect(()=>{
-        PostByGroupId(GroupDetail.id).then(setGroupPosts)
+        if(!isNullOrUndefined(name)){
+            GetGroupByName(name).then(setGroupDetail)
+        }
+    },[name])
+
+    useEffect(()=>{
+        //var groupTemp = GroupDetail
+        if(!isNullOrUndefined(GroupDetail.id)){
+           PostByGroupId(GroupDetail.id).then(setGroupPosts) 
+        }else{
+            
+        }
+        
     },[GroupDetail])
 
     useEffect(()=>{
+        if(GroupDetail!=null){
+
+       
         var xyz = userGroups.find((group)=>group.id==GroupDetail.id)
         if(xyz)
         {
@@ -28,15 +45,22 @@ export const GroupPage =({GroupDetail, user, userGroups })=>{
         }
         else{
             setInGroup(false)
-        }
+        } 
+    }
 
     },[userGroups])
 
     //reloads
-    useEffect(()=>{},[inGroup])
-    useEffect(()=>{PostByGroupId(GroupDetail.id).then(setGroupPosts)},[addpost])
+    // useEffect(()=>{},[inGroup])
+     useEffect(()=>{
+       if(!isNullOrUndefined(GroupDetail.id)){
+           PostByGroupId(GroupDetail.id).then(setGroupPosts) 
+        }
+    
+    },[addpost])
 
     const createPost =(data)=>{
+        // data.preventDefault()
         setAddPost(data)
         
     }
@@ -91,7 +115,7 @@ export const GroupPage =({GroupDetail, user, userGroups })=>{
     <Card >
         {
             groupPosts.map((post)=>(
-                <Post key={post.id} post={post}/>
+                <Post key={post.id} post={post} Group={GroupDetail.name}/>
             ))
         }
     </Card>
