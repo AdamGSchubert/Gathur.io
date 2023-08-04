@@ -17,6 +17,7 @@ export const GroupPage =({ user, userGroups })=>{
     const [addpost, setAddPost]=useState(false)
     const [inGroup, setInGroup]=useState(false)
     const [GroupDetail, setGroupDetail]=useState({})
+    const [reload, setReload]=useState(false)
 
     useEffect(()=>{
         if(!isNullOrUndefined(name)){
@@ -52,18 +53,36 @@ export const GroupPage =({ user, userGroups })=>{
 
     //reloads
     // useEffect(()=>{},[inGroup])
-     useEffect(()=>{
-       if(!isNullOrUndefined(GroupDetail.id)){
-           PostByGroupId(GroupDetail.id).then(setGroupPosts) 
-        }
-    
-    },[addpost])
+    // useEffect(()=>{ if(!isNullOrUndefined(GroupDetail.id)){
+    //                 PostByGroupId(GroupDetail.id).then(setGroupPosts) 
+    //     }},[addpost])
 
-    const createPost =(data)=>{
-        // data.preventDefault()
+        // useEffect(()=>{ if(!isNullOrUndefined(GroupDetail.id)){
+        //     PostByGroupId(GroupDetail.id).then(setGroupPosts) 
+        // }},[])
+
+    // useEffect(()=>{ if(!isNullOrUndefined(GroupDetail.id)){
+    //                 PostByGroupId(GroupDetail.id).then(setGroupPosts)
+    //     }},[reload])
+
+     useEffect(()=>{},[groupPosts])
+
+        //callback functs
+    const createPost = (data) => {
         setAddPost(data)
-        
+        if (!isNullOrUndefined(GroupDetail.id)) {
+            PostByGroupId(GroupDetail.id).then(setGroupPosts)
+        }
     }
+
+
+        const removePost = (data) => {
+            setReload(data)
+            if (!isNullOrUndefined(GroupDetail.id)) {
+                PostByGroupId(GroupDetail.id).then(setGroupPosts)
+            }
+        }
+    //end of reloads and callbacks
 
     const JoinGroup =(e)=>{
         e.preventDefault()
@@ -115,7 +134,10 @@ export const GroupPage =({ user, userGroups })=>{
     <Card >
         {
             groupPosts.map((post)=>(
-                <Post key={post.id} post={post} Group={GroupDetail.name}/>
+                <Post key={post.id} post={post} 
+                Group={GroupDetail.name} 
+                currentUser={user} 
+                reloadCallBk={removePost}/>
             ))
         }
     </Card>

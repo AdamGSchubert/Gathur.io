@@ -10,6 +10,7 @@ import { GetAllGroups } from "../Modules/GroupManager";
 import { GroupPage } from "./Groups/GroupPage";
 import { PostWithCommentList } from "./Posts/PostComments";
 import { SearchResult } from "./NavBars/SearchResult";
+import { EditPost } from "./Posts/EditPost";
 
 export default function ApplicationViews({ isLoggedIn, user, 
   appLogoutCallback,loggedUserGroups }) {
@@ -43,10 +44,11 @@ export default function ApplicationViews({ isLoggedIn, user,
               <Route path="group">
                 <Route path= ":name">
                   <Route index element={<GroupPage user={user} userGroups={loggedUserGroups}/> }/>
-                    <Route  path= ":postTitleId"
-                  element={<PostWithCommentList User={user}/>}/>
-                    
-                    </Route>    
+                    <Route  path= ":postTitleId">
+                  <Route index element={<PostWithCommentList User={user}/>}/>
+                  <Route path=":editId" element={<EditPost/>}/>
+                  </Route>
+                </Route>    
             
                </Route> 
             </Route>

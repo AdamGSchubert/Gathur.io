@@ -66,9 +66,7 @@ return ( <nav className="navbar navbar-expand-lg bg-body-tertiary  " data-bs-the
       <li className="nav-item">
         <a className="nav-link active" aria-current="page" href="/">Home</a>
       </li>
-      <li className="nav-item">
-        <a className="nav-link" href="#">Link</a>
-      </li>
+      
     </ul>
     <form className="d-flex" role="search" onSubmit={(e)=>search(e)}>
       <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChange={(e)=>(setSearchTerm(e.target.value))}/>

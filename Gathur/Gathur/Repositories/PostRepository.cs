@@ -235,8 +235,9 @@ namespace Gathur.Repositories
 									EditTime= @editTime
 									where Post.Id=@id";
 					DbUtils.AddParameter(cmd, "@id", post.Id);
-					DbUtils.AddParameter(cmd, "@authorId", post.Author.Id);
-					DbUtils.AddParameter(cmd, "@groupId", post.Group.Id);
+					DbUtils.AddParameter(cmd, "@authorId", post.AuthorId);
+					DbUtils.AddParameter(cmd, "@groupId", post.GroupId);
+					DbUtils.AddParameter(cmd, "@posttype", post.PostTypeId);
 					DbUtils.AddParameter(cmd, "@title", post.Title);
 					DbUtils.AddParameter(cmd, "@content", post.Content);
 					DbUtils.AddParameter(cmd, "@zipcode", post.Zipcode);

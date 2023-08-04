@@ -3,7 +3,7 @@ import {Card} from "reactstrap";
 import { NewPost } from "../../Modules/PostManager";
 import { isNullOrUndefined } from "../../Util";
 
-export const CreatePost =({GroupId, user, CancelPost, userGroupList })=>{
+export const CreatePost =({GroupId, user, CancelPost, userGroupList})=>{
     
     
     const [title, setTitle]=useState("")
@@ -26,6 +26,7 @@ export const CreatePost =({GroupId, user, CancelPost, userGroupList })=>{
 
    },[crosspost])
 
+
     const meetingCheck =()=>{
         setMeeting(!meeting)
     }
@@ -39,12 +40,12 @@ export const CreatePost =({GroupId, user, CancelPost, userGroupList })=>{
     } 
     
 
-    const cancelPost =(data)=>{
-        CancelPost(data);
-    }
+    // const cancelPost =(data)=>{
+    //     CancelPost(data);
+    // }
     
     const CreatePost =(e)=>{
-        e.preventDefault()
+        //e.preventDefault()
          var type = null;
         if(meeting){
             type=2
@@ -56,7 +57,7 @@ export const CreatePost =({GroupId, user, CancelPost, userGroupList })=>{
             GroupId: GroupId,
             Content: content,
             AuthorId: user.id,
-            MeetingZip: meetingZip,
+            Zipcode: parseInt(meetingZip),
             Address: meetingAdress,
             PostTypeId: type
             }
@@ -69,13 +70,13 @@ export const CreatePost =({GroupId, user, CancelPost, userGroupList })=>{
                
                post2.GroupId = parseInt(crossGroup)
                //update for second post in crossposted group
-            NewPost(post2);
+            NewPost(post2).then(CancelPost(false))
             
             //end
-            CancelPost(false)
+            
         }else{
-           NewPost(post);
-            CancelPost(false) 
+           NewPost(post).then(CancelPost(false) )
+            
         }
 
         
@@ -105,12 +106,14 @@ export const CreatePost =({GroupId, user, CancelPost, userGroupList })=>{
                     className="form-control" 
                     id="meetingZip" 
                     placeholder="14738"
+                    
                     onChange={(e)=>{setMeetingZip(e.target.value)}}/>
                     <label 
                     htmlFor="meetingAddress" className="form-label">Address</label>
                     <input type="address"  
                     className="form-control" 
                     id="meetingAddress" 
+                   
                     placeholder="750 Beech Rd.
                     Shepherdsville, KY 40165 "
                     onChange={(e)=>{setMeetingAddress(e.target.value)}}/>
@@ -143,16 +146,16 @@ export const CreatePost =({GroupId, user, CancelPost, userGroupList })=>{
                 }
                 <div className="col">
                     <label htmlFor="postTitle" className="form-label">Post Title</label>
-                    <input type="text" className="form-control" id="postTitle" placeholder="title"onChange={(e)=>{setTitle(e.target.value)}}/>
+                    <input type="text" className="form-control" id="postTitle"  placeholder="title"onChange={(e)=>{setTitle(e.target.value)}}/>
                 </div>
                 <div className="col">
                     <label htmlFor="postContent" className="form-label">Content</label>
-                    <textarea className="form-control" id="postContent" rows="3" onChange={(e)=>{setContent(e.target.value)}}/>
+                    <textarea className="form-control" id="postContent" rows="3"  onChange={(e)=>{setContent(e.target.value)}}/>
                 </div>
                 <div className="col">
                     
                     <input type="submit" value="Submit"/>
-                    <button onClick={(e)=>{cancelPost(false)}}>Cancel</button>
+                    <button onClick={(e)=>{CancelPost(false)}}>Cancel</button>
                 </div>
                 </div>
             </div>

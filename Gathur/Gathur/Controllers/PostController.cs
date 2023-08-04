@@ -48,7 +48,7 @@ namespace Gathur.Controllers
 			//return CreatedAtAction(nameof(GetGroupPosts), new {id = post.Id}, post);
 			return Created($"/api/post/{post.Id}", post);
 		}
-
+		[Authorize]
 		[HttpDelete("PostId")]
 		public IActionResult DeletePost(int PostId)
 		{
@@ -70,6 +70,29 @@ namespace Gathur.Controllers
 
 
 		}
+
+		[Authorize]
+		[HttpPut]
+		public IActionResult updatePost(Post updatePost) 
+		{
+			string UUID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+			User signedUser = _userRepository.GetByFirebaseUserId(UUID);
+			var post = _postRepository.GetPostById(updatePost.Id);
+
+			if (post.Author.Id == signedUser.Id)
+			{
+				_postRepository.UpdatePost(updatePost.Id, updatePost);
+				return Ok();
+			}
+			else
+			{
+				return BadRequest();
+			}
+
+		}
+
+
 		private User GetCurrentUserProfile()
 		{
 			var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;

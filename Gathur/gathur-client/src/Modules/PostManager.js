@@ -71,3 +71,40 @@ export const GetPostbyId=(postId)=>{
   )
     
 }
+
+export const DeletePostbyId = (postId) => {
+    return getToken().then((token) => {
+        return fetch(`${postApi}/PostId?PostId=${postId}`, {
+            method: "Delete",
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+    })
+}
+
+export const updatePost =(upPost)=>{
+    return getToken().then((token) => {
+        return fetch(postApi, {
+            method: "Put",
+            headers: {
+                authorization: `Bearer ${token}`,
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(upPost)
+        }).then((response) =>{
+            if(response.ok){
+                return true
+            } 
+            else{
+                throw new Error(
+                    "update post has failed"
+                )
+            }
+        }
+
+        )
+    })
+}
+
+

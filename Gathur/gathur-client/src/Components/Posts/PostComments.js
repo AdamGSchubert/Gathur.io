@@ -85,6 +85,7 @@ useEffect(()=>{
             <div className="col">
             { addComment ?  <CreateComment PostId={postId} user={User}  cancelComment={createComment}/>
             : <button onClick={(e)=>{createComment(true)}}>add comment</button>}
+            
 
         </div>
             {
