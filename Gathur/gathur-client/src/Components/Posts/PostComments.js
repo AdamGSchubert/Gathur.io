@@ -7,10 +7,13 @@ import { Post } from "./Post";
 import { GetGroupById } from "../../Modules/GroupManager";
 import { isNullOrUndefined } from "../../Util";
 import { CreateComment } from "./CreateComment";
+import {useNavigate} from "react-router-dom";
 
-export const PostWithCommentList =({User})=>{
+export const PostWithCommentList =({User, isLoggedIn})=>{
     const {postTitleId}=useParams()
     const {name} =useParams
+
+    const navigate=useNavigate()
     
     
     const [comments, setComments]=useState([])
@@ -83,9 +86,11 @@ useEffect(()=>{
             <Post post={post} Group={group}/>
             
             <div className="col">
-            { addComment ?  <CreateComment PostId={postId} user={User}  cancelComment={createComment}/>
-            : <button onClick={(e)=>{createComment(true)}}>add comment</button>}
-            
+                {isLoggedIn ? <>{ addComment ?  <CreateComment PostId={postId} user={User}  cancelComment={createComment}/>
+                                    : <button onClick={(e)=>{createComment(true)}}>add comment</button>}</>
+                :
+                <button onClick={(e)=>{navigate("/login")}}>add comment</button>
+                }
 
         </div>
             {

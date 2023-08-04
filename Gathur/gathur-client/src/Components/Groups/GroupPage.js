@@ -6,12 +6,14 @@ import { CreatePost } from "../Posts/CreatePost";
 import { UserJoinGroup, RemoveUserGroup, GetGroupByName } from "../../Modules/GroupManager";
 import {useParams} from "react-router-dom"
 import { isNullOrUndefined } from "../../Util";
+import {useNavigate} from "react-router-dom";
 
 
 
 
-export const GroupPage =({ user, userGroups })=>{
+export const GroupPage =({ user, userGroups,isLoggedIn })=>{
     const {name} = useParams()
+    const navigate=useNavigate()
 
     const [groupPosts, setGroupPosts]=useState([])
     const [addpost, setAddPost]=useState(false)
@@ -123,9 +125,13 @@ export const GroupPage =({ user, userGroups })=>{
                 </Card>
             </div>
         </div>
-        <div className="col">
-            { addpost ? <CreatePost GroupId={GroupDetail.id} user={user} CancelPost={createPost} userGroupList={userGroups}/> 
-            : <button onClick={(e)=>{createPost(true)}}>add a post</button>}
+        <div className="col">{
+            isLoggedIn ? <>{ addpost ? <CreatePost GroupId={GroupDetail.id} user={user} CancelPost={createPost} userGroupList={userGroups}/> 
+                                    : <button onClick={(e)=>{createPost(true)}}>add a post</button>}</>     
+            
+            : <button onClick={(e)=>{navigate("/login")}}>add a post</button>
+        }
+            
 
         </div>
         </div>

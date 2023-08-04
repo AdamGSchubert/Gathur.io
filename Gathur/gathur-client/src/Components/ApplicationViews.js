@@ -43,9 +43,9 @@ export default function ApplicationViews({ isLoggedIn, user,
             <Route> */}
               <Route path="group">
                 <Route path= ":name">
-                  <Route index element={<GroupPage user={user} userGroups={loggedUserGroups}/> }/>
+                  <Route index element={<GroupPage user={user} userGroups={loggedUserGroups} isLoggedIn={isLoggedIn}/> }/>
                     <Route  path= ":postTitleId">
-                  <Route index element={<PostWithCommentList User={user}/>}/>
+                  <Route index element={<PostWithCommentList User={user} isLoggedIn={isLoggedIn}/>}/>
                   <Route path=":editId" element={<EditPost/>}/>
                   </Route>
                 </Route>    
